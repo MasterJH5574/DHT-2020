@@ -6,8 +6,8 @@ type dhtNode interface {
 
 	/* "Create" and "Join" are called after calling "Run". */
 	/* For a dhtNode, either "Create" or "Join" will be called, but not both. */
-	Create() /* Create a new network. */
-	Join()   /* Join an existing network. */
+	Create()          /* Create a new network. */
+	Join(addr string) /* Join an existing network. */
 
 	/* Quit from the network it is currently in.*/
 	/* "Quit" will not be called before "Create" or "Join". */
@@ -23,7 +23,7 @@ type dhtNode interface {
 	/* Check whether the node represented by the IP address is in the network. */
 	Ping(addr string) bool
 
-	/* Put a key-value pair into the network, or
+	/* Put a key-value pair into the network (if KEY is already in the network, cover it), or
 	 * get a key-value pair from the network, or
 	 * remove a key-value pair from the network.
 	 */
