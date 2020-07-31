@@ -30,6 +30,38 @@ GitHub repository for test: [DHT-2020](https://github.com/MasterJH5574/DHT-2020)
 - 20% for the application/second protocol.
 - 10% for a short report and code review.
 
+## Tests
+
+Unluckily, DHT tests cannot run successfully under Windows. So if you want to run tests by yourself, it is recommended to run tests under a Linux virtual machine, or employ a remote server.
+
+If you want to debug tests by yourself, you can still use GoLand under virtual machine, or use Delve (a GoLang debugger) + GoLand if you employed a remote server.
+
+Contact TA if you find any bug in the test program, or if you have some test ideas, or if you think the tests are too hard and you want TA to make it easier.
+
+### Basic Test
+
+The current test procedure is:
+
+* There are **5 rounds** of test in total.
+* In each round,
+  1. **20 nodes** join the network. Then **sleep for 10 seconds.**
+  2. **Put 200 key-value pairs**, **query for 160 pairs**, and then **delete 100 pairs**. There is **no sleep time between contiguous two operations**.
+  3. **10 nodes** quit from the network. Then **sleep for 10 seconds**.
+  4. (The same as 2.) **Put 200 key-value pairs**, **query for 160 pairs**, and then **delete 100 pairs**. There is **no sleep time between contiguous two operations**.
+
+### Advance Test
+
+Not finished yet.
+
+### How to Test Your Chord?
+
+1. Clone this repository using `git clone https://github.com/MasterJH5574/DHT-2020.git`.
+2. Set the environment variables `GOROOT` and `GOPATH` correctly.
+3. Under `GOPATH`, run `go get -u -v github.com/fatih/color` in shell to install the color package.
+4. Replace `$GOPATH/src/main/userdef.go` with your own `userdef.go`. Do not modify `$GOPATH/src/main/interface.go`.
+5. Copy your Chord package(s) into `$GOPATH/src` directory.
+6. Under `GOPATH`, run `go build main` to generate the executable `main`. Then use `./main -test basic` or `./main -test advance` or `./main -test all` to run the corresponding test. (Or you can use `go run main -test [testName]` to run tests directly without generating the executable `main`.) (Or you can use GoLand to run the tests.)
+
 ## Reference
 
 - Learn Go
