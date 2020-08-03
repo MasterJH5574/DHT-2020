@@ -62,6 +62,10 @@ Not finished yet.
 5. Copy your Chord package(s) into `$GOPATH/src` directory.
 6. Under `GOPATH`, run `go build main` to generate the executable `main`. Then use `./main -test basic` or `./main -test advance` or `./main -test all` to run the corresponding test. (Or you can use `go run main -test [testName]` to run tests directly without generating the executable `main`.) (Or you can use GoLand to run the tests.)
 
+### About Go Remote Debug
+
+Please reference this [guide](https://github.com/MasterJH5574/DHT-2020/blob/master/guide/Go-Remote-Debug.md).
+
 ## Reference
 
 - Learn Go
