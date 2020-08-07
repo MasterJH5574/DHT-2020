@@ -7,13 +7,14 @@ import (
 	"time"
 )
 
-func basicTest() (int, int) {
-	basicFailedCnt, basicTotalCnt := 0, 0
+func basicTest() (bool, int, int) {
+	basicFailedCnt, basicTotalCnt, panicked := 0, 0, false
 
 	defer func() {
 		if r := recover(); r != nil {
 			_, _ = red.Println("Program panicked with", r)
 		}
+		panicked = true
 	}()
 
 	nodes := new([basicTestNodeSize + 1]dhtNode)
@@ -32,7 +33,7 @@ func basicTest() (int, int) {
 
 	nodesInNetwork := make([]int, 0, basicTestNodeSize+1)
 
-	time.Sleep(time.Millisecond * 200)
+	time.Sleep(basicTestAfterRunSleepTime)
 
 	/* Node 0 now creates a new network. */
 	nodes[0].Create()
@@ -59,12 +60,12 @@ func basicTest() (int, int) {
 			}
 			nodesInNetwork = append(nodesInNetwork, nextJoinNode)
 
-			time.Sleep(time.Millisecond * 1000)
+			time.Sleep(basicTestJoinQuitSleepTime)
 			nextJoinNode++
 		}
 		joinInfo.finish(&basicFailedCnt, &basicTotalCnt)
 
-		time.Sleep(time.Second * 10)
+		time.Sleep(basicTestAfterJoinQuitSleepTime)
 
 		/* Put, part 1. */
 		put1Info := testInfo{
@@ -139,10 +140,10 @@ func basicTest() (int, int) {
 			nodes[nodesInNetwork[idxInArray]].Quit()
 			nodesInNetwork = removeFromArray(nodesInNetwork, idxInArray)
 
-			time.Sleep(time.Millisecond * 1000)
+			time.Sleep(basicTestJoinQuitSleepTime)
 		}
 		_, _ = green.Printf("Quit (round %d) passed.\n", t)
-		time.Sleep(time.Second * 10)
+		time.Sleep(basicTestAfterJoinQuitSleepTime)
 
 		/* Put, part 2. */
 		put2Info := testInfo{
@@ -215,5 +216,5 @@ func basicTest() (int, int) {
 		nodes[i].Quit()
 	}
 
-	return basicFailedCnt, basicTotalCnt
+	return panicked, basicFailedCnt, basicTotalCnt
 }

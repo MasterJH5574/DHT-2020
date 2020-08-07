@@ -31,14 +31,20 @@ func main() {
 	_, _ = yellow.Println("Welcome to DHT-2020 Test Program!\n")
 
 	var basicFailRate float64
-	//var advanceFailRate float64
+	var forceQuitFailRate float64
+	var QASFailRate float64
 
 	switch testName {
 	case "all":
 		fallthrough
 	case "basic":
 		_, _ = yellow.Println("Basic Test Begins:")
-		basicFailedCnt, basicTotalCnt := basicTest()
+		basicPanicked, basicFailedCnt, basicTotalCnt := basicTest()
+		if basicPanicked {
+			_, _ = red.Printf("Basic Test Panicked.")
+			os.Exit(0)
+		}
+
 		basicFailRate = float64(basicFailedCnt) / float64(basicTotalCnt)
 		if basicFailRate > basicTestMaxFailRate {
 			_, _ = red.Printf("Basic test failed with fail rate %.4f\n", basicFailRate)
@@ -49,44 +55,58 @@ func main() {
 		if testName == "basic" {
 			break
 		}
+		time.Sleep(afterTestSleepTime)
 		fallthrough
 	case "advance":
-		_, _ = cyan.Println("Advance Test Begins:")
-		_, _ = red.Println("To be added...")
-	}
-	/*
-		switch 1 {
-		case 1:
-			blue.Println("Start Advanced Tests")
-			if advancedTest(); basicTestMaxFailRate > failrate() {
-				green.Println("Passed Advanced Tests with", failrate())
-			} else {
-				red.Println("Failed Advanced Tests")
-				// os.Exit(0)
-			}
+		_, _ = yellow.Println("Advance Test Begins:")
 
-			totalCnt = 0
-			totalFail = 0
-			blue.Println("Start Force Quit Tests")
-			if testForceQuit(2); basicTestMaxFailRate > failrate()/50 {
-				green.Println("Passed Force Quit with", failrate())
-			} else {
-				red.Println("Failed Advanced Tests")
-				os.Exit(0)
-			}
-			finalScore += failrate()
-		default:
-			red.Print("Select error, ask -h for help")
+		/* ------ Force Quit Test Begins ------ */
+		forceQuitPanicked, forceQuitFailedCnt, forceQuitTotalCnt := forceQuitTest()
+		if forceQuitPanicked {
+			_, _ = red.Printf("Force Quit Test Panicked.")
 			os.Exit(0)
 		}
 
-		green.Printf("\nNot necessary, but tell finall score: %.2f\n", 1-finalScore)
-	*/
+		forceQuitFailRate = float64(forceQuitFailedCnt) / float64(forceQuitTotalCnt)
+		if forceQuitFailRate > forceQuitMaxFailRate {
+			_, _ = red.Printf("Force quit test failed with fail rate %.4f\n", forceQuitFailRate)
+		} else {
+			_, _ = green.Printf("Force quit test passed with fail rate %.4f\n", forceQuitFailRate)
+		}
+		time.Sleep(afterTestSleepTime)
+		/* ------ Force Quit Test Ends ------ */
+
+		/* ------ Quit & Stabilize Test Begins ------ */
+		QASPanicked, QASFailedCnt, QASTotalCnt := quitAndStabilizeTest()
+		if QASPanicked {
+			_, _ = red.Printf("Quit & Stabilize Test Panicked.")
+			os.Exit(0)
+		}
+
+		QASFailRate = float64(QASFailedCnt) / float64(QASTotalCnt)
+		if QASFailRate > QASMaxFailRate {
+			_, _ = red.Printf("Quit & Stabilize test failed with fail rate %.4f\n", QASFailRate)
+		} else {
+			_, _ = green.Printf("Quit & Stabilize test passed with fail rate %.4f\n", QASFailRate)
+		}
+		/* ------ Quit & Stabilize Test Ends ------ */
+	}
+
 	_, _ = cyan.Println("\nFinal print:")
 	if basicFailRate > basicTestMaxFailRate {
 		_, _ = red.Printf("Basic test failed with fail rate %.4f\n", basicFailRate)
 	} else {
 		_, _ = green.Printf("Basic test passed with fail rate %.4f\n", basicFailRate)
+	}
+	if forceQuitFailRate > forceQuitMaxFailRate {
+		_, _ = red.Printf("Force quit test failed with fail rate %.4f\n", forceQuitFailRate)
+	} else {
+		_, _ = green.Printf("Force quit test passed with fail rate %.4f\n", forceQuitFailRate)
+	}
+	if QASFailRate > QASMaxFailRate {
+		_, _ = red.Printf("Quit & Stabilize test failed with fail rate %.4f\n", QASFailRate)
+	} else {
+		_, _ = green.Printf("Quit & Stabilize test passed with fail rate %.4f\n", QASFailRate)
 	}
 }
 

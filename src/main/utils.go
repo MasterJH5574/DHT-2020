@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/fatih/color"
 )
@@ -14,14 +15,38 @@ const (
 
 	lengthOfKeyValue int = 50
 
-	basicTestRoundNum          int = 5   // 5 rounds in total.
-	basicTestNodeSize          int = 100 // Nodes are numbered with 0 ~ 100 (101 nodes in total).
-	basicTestRoundJoinNodeSize int = 20
-	basicTestRoundQuitNodeSize int = 10
-	basicTestRoundPutSize      int = 200
-	basicTestRoundGetSize      int = 160
-	basicTestRoundDeleteSize   int = 100
-	basicTestMaxFailRate           = 0.01
+	afterTestSleepTime = 10 * time.Second
+
+	basicTestRoundNum               int     = 5   // 5 rounds in total.
+	basicTestNodeSize               int     = 100 // Nodes are numbered with 0 ~ 100 (101 nodes in total).
+	basicTestRoundJoinNodeSize      int     = 20
+	basicTestRoundQuitNodeSize      int     = 10
+	basicTestRoundPutSize           int     = 200
+	basicTestRoundGetSize           int     = 160
+	basicTestRoundDeleteSize        int     = 100
+	basicTestMaxFailRate            float64 = 0.01
+	basicTestAfterRunSleepTime              = 200 * time.Millisecond
+	basicTestJoinQuitSleepTime              = time.Second
+	basicTestAfterJoinQuitSleepTime         = 9 * time.Second
+
+	forceQuitNodeSize           int     = 80
+	forceQuitPutSize            int     = 500
+	forceQuitRoundNum           int     = 10
+	forceQuitMaxFailRate        float64 = 0.15
+	forceQuitRoundQuitNodeSize          = forceQuitNodeSize / forceQuitRoundNum
+	forceQuitAfterRunSleepTime          = 200 * time.Millisecond
+	forceQuitJoinSleepTime              = time.Second
+	forceQuitAfterJoinSleepTime         = 9 * time.Second
+	forceQuitFQSleepTime                = 100 * time.Millisecond
+
+	QASNodeSize           int     = 80
+	QASPutSize            int     = 800
+	QASMaxFailRate        float64 = 0.01
+	QASGetSize            int     = 20
+	QASAfterRunSleepTime          = 200 * time.Millisecond
+	QASJoinSleepTime              = time.Second
+	QASAfterJoinSleepTime         = 10 * time.Second
+	QASQuitSleepTime              = 40 * time.Millisecond
 )
 
 var (
