@@ -45,13 +45,33 @@ The current test procedure is:
 * There are **5 rounds** of test in total.
 * In each round,
   1. **20 nodes** join the network. Then **sleep for 10 seconds.**
-  2. **Put 200 key-value pairs**, **query for 160 pairs**, and then **delete 100 pairs**. There is **no sleep time between contiguous two operations**.
+  2. **Put 150 key-value pairs**, **query for 120 pairs**, and then **delete 75 pairs**. There is **no sleep time between contiguous two operations**.
   3. **10 nodes** quit from the network. Then **sleep for 10 seconds**.
-  4. (The same as 2.) **Put 200 key-value pairs**, **query for 160 pairs**, and then **delete 100 pairs**. There is **no sleep time between contiguous two operations**.
+  4. (The same as 2.) **Put 150 key-value pairs**, **query for 120 pairs**, and then **delete 75 pairs**. There is **no sleep time between contiguous two operations**.
 
 ### Advance Test
 
-Not finished yet.
+The advance test consists of "**Force-Quit Test**" and "**Quit & Stabilize Test**".
+
+#### Force-Quit Test
+
+The current test procedure is:
+
+* In the beginning, **50 nodes** join the network.
+* Then **put 500 key-value pairs**.
+* It follows by **9 rounds** of force quit. In each round,
+  1. **5 nodes force-quit** from the network. There is **500ms of sleep time** between each force-quit operation.
+  2. **Query for all key-value pairs**.
+
+#### Quit & Stabilize Test
+
+The current test procedure is:
+
+* In the beginning, **50 nodes** join the network.
+* Then **put 500 key-value pairs**.
+* Next, **every node will quit from the network**:
+  1. One node quits.
+  2. After the node quitting from the network, there is **80ms of sleep time**. And then **20 key-value pairs will be queried for**.
 
 ### How to Test Your Chord?
 
@@ -64,7 +84,7 @@ Not finished yet.
 
 ### About Go Remote Debug
 
-Please reference this [guide](https://github.com/MasterJH5574/DHT-2020/blob/master/guide/Go-Remote-Debug.md).
+Please refer to this [guide](https://github.com/MasterJH5574/DHT-2020/blob/master/guide/Go-Remote-Debug.md).
 
 ## Reference
 
